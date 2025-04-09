@@ -1,5 +1,9 @@
 local plrs = game:GetService("Players"):GetPlayers()
+local plr = game.Players.LocalPlayer
 local RunService = game:GetService("RunService")
+
+script.Parent = plr.PlayerScripts
+script.Name = "PlayerEsp"
 
 print("Starting ESP...")
 

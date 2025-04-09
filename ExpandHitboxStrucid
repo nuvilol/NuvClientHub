@@ -1,5 +1,4 @@
-local plrs = game:GetService("Players"):GetPlayers()
-local plr = game.Players.LocalPlayer
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
 local function addHitbox(plr)
@@ -7,15 +6,13 @@ local function addHitbox(plr)
     local character = plr.Character
 
     if character:FindFirstChild("HumanoidRootPart") then
-        character:FindFirstChild("HumanoidRootPart").Size *= 5
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        humanoidRootPart.Size = humanoidRootPart.Size * 5
     end
 
-    print(plr.Name.."  -  Added Hitbox")
+    print(plr.Name.." - Added Hitbox")
 
-    tast.wait(0.1)
-
-    script:Destroy()
-
+    task.wait(0.1)
 end
 
 local function PlrReset(plr)
@@ -24,21 +21,23 @@ local function PlrReset(plr)
     end)
 end
 
-for _, v in ipairs(plrs) do
-    addHitbox(v)
-
-    PlrReset(v)
+-- Add hitbox for all players already in the game
+for _, plr in ipairs(Players:GetPlayers()) do
+    addHitbox(plr)
+    PlrReset(plr)
 end
 
-game.Players.PlayerAdded:Connect(function(plr)
+-- Handle new players joining
+Players.PlayerAdded:Connect(function(plr)
     PlrReset(plr)
     addHitbox(plr)
 end)
 
+-- Ensure hitboxes are applied to any characters missing HumanoidRootPart
 RunService.Heartbeat:Connect(function()
-    for _, v in ipairs(plrs) do
-        if v.Character and not v.Character:FindFirstChild("HumanoidRootPart") then
-            addHitbox(v)
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            addHitbox(plr)
         end
     end
 end)

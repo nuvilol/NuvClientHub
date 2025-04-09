@@ -25,16 +25,12 @@ local function addESP(plr)
     end
 
     local HLClone = Highlight:Clone()
-    if not HLClone.FillColor = plr.Team.Color then
-        HLClone.FillColor = Color3.fromRGB(255,255,255)
-    else
-        HLClone.FillColor = plr.Team.Color
-    end
+    HLClone.FillColor = plr.Team.TeamColor.Color
     HLClone.Enabled = true
     HLClone.Parent = character
     HLClone.Name = "HighlightESP"
 
-    print("Added ESP")
+    print(plr.Name.."  -  Added ESP")
 
 end
 
@@ -55,7 +51,7 @@ game.Players.PlayerAdded:Connect(function(plr)
     addESP(plr)
 end)
 
-RunService.HeartBeat:Connect(function()
+RunService.Heartbeat:Connect(function()
     for _, v in ipairs(plrs) do
         if v.Character and not v.Character:FindFirstChild("HighlightESP") then
             addESP(v)

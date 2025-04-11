@@ -25,7 +25,11 @@ local function addESP(plr)
     end
 
     local HLClone = Highlight:Clone()
-    HLClone.FillColor = plr.Team.TeamColor.Color
+    if not plr.Team then
+        HLClone.FillColor = Color3.fromRGB(255,0,0)
+    else
+        HLClone.FillColor = plr.Team.TeamColor.Color
+    end
     HLClone.Enabled = true
     HLClone.Parent = character
     HLClone.Name = "HighlightESP"
